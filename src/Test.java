@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Test {
     public static void main(String[] args) {
 
@@ -22,5 +25,56 @@ public class Test {
         Print how many students are MathStudent with message -> "Math students = {numberOfMathStudents}"
         Print how many students are ScienceStudent with message -> "Science students = {numberOfScienceStudents}"
          */
+        ArrayList<Student> students = new ArrayList<>();
+        int numberOfMathStudents = 0;
+        int numberOfScienceStudents = 0;
+        Scanner input = new Scanner(System.in);
+        do {
+            System.out.println(UserQuestions.askToJoin);
+
+            String ans = input.nextLine();
+            if(ans.toUpperCase().startsWith("Y"))
+                System.out.println(UserQuestions.askFirstName);
+            String name  = input.nextLine();
+            System.out.println(UserQuestions.askLastName);
+            String Lname = input.nextLine();
+            System.out.println(UserQuestions.askAge);
+            int age = input.nextInt();
+            input.nextLine();
+            Permission.checkAge(age);
+
+            System.out.println(UserQuestions.askGender);
+           String gender =  input.nextLine();
+
+            System.out.println(UserQuestions.askClassName);
+            String className = input.nextLine();
+            Permission.checkClassName(className);
+            Student student = new Student(name, Lname, age,gender, className);
+            if (className.equalsIgnoreCase("Math")) {
+                student = new MathStudent(name, Lname, age, gender, className);
+                numberOfMathStudents++;
+            } else {
+                student = new ScienceStudent(name, Lname, age, gender, className);
+                numberOfScienceStudents++;
+            }
+
+            students.add(student);
+        }while(students.size() <= 2);
+
+
+        int mathCount = 0;
+        int scienceCount = 0;
+        for (Student student : students) {
+            System.out.println(student);
+            if (student.getClassName().equalsIgnoreCase("Math")){
+                mathCount++;
+            }
+            else if (student.getClassName().equalsIgnoreCase("Science")){
+                scienceCount++;
+            }
+        }
+        System.out.println("Math students = " + numberOfMathStudents);
+        System.out.println("Science students = " + numberOfScienceStudents);
+
     }
 }
